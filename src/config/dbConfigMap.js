@@ -175,6 +175,15 @@ export const clientDBConfig = {
     port: 16000,
     database: "SwasERP_KPF",
   },
+
+  DEV: {
+    user: "sa",
+    password: "@dmin1305",
+    server: "117.200.77.84",
+    port: 16000,
+    // database: "SwasERP_KAS_Check",
+    database: "SwasERP_KAS",
+  },
   KAS: {
     user: "sa",
     password: "@dmin1305",
