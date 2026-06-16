@@ -14,6 +14,17 @@ import storeRouter from './store.router.js';
 import hrmRouter from './hrm.router.js';
 import gateRouter from './gate.router.js';
 import financeRouter from './finance.router.js';
+import bankRouter from './bank.router.js';
+import maintenanceGroupRouter from './maintenanceGroup.router.js';
+import departmentGroupRouter from './departmentGroup.router.js';
+import departmentRouter from './department.router.js';
+import approvalRouter from './approval.router.js';
+import costHeadRouter from './costHead.router.js';
+import stateRouter from './state.router.js';
+import godownRouter from './godown.router.js';
+import districtRouter from './district.router.js';
+import costingMasterRouter from './costingMaster.router.js';
+import itemCategoryRouter from './itemCategory.router.js';
 import homeRouter from './home.router.js';
 import graphRouter from './graph.router.js';
 import wasteRouter from './waste.router.js';
@@ -24,12 +35,20 @@ import costingRouter from './costing.router.js';
 import locationRouter from './location.router.js';
 import notificationRouter from './notification.router.js';
 import aiChatRouter from './aiChat.router.js';
+import { authenticate } from '../middleware/authMiddleware.js';
 
 const appRoutes = () => {
   const router = express.Router();
-  router.use('/badge', badgeRouter);
+
+  // Public routes (no token required): login, fycode list, token create,
+  // and the company list used to populate the login page dropdown.
   router.use('/auth', authRouter);
   router.use('/company', companyRouter);
+
+  // Everything below this line requires a valid JWT.
+  // router.use(authenticate);
+
+  router.use('/badge', badgeRouter);
   router.use('/report', reportRouter);
   router.use('/cotton', cottonRouter);
   router.use('/document', documentRouter);
@@ -42,6 +61,17 @@ const appRoutes = () => {
   router.use('/hrm', hrmRouter);
   router.use('/gate', gateRouter);
   router.use('/finance', financeRouter);
+  router.use('/bank', bankRouter);
+  router.use('/maintenance-group', maintenanceGroupRouter);
+  router.use('/department-group', departmentGroupRouter);
+  router.use('/department', departmentRouter);
+  router.use('/approval', approvalRouter);
+  router.use('/cost-head', costHeadRouter);
+  router.use('/state', stateRouter);
+  router.use('/godown', godownRouter);
+  router.use('/district', districtRouter);
+  router.use('/costing-master', costingMasterRouter);
+  router.use('/item-category', itemCategoryRouter);
   router.use('/home', homeRouter);
   router.use('/graph', graphRouter);
   router.use('/waste', wasteRouter);
