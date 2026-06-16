@@ -53,7 +53,8 @@ export async function notificationJob(req, res) {
 export const notificationToken = async (req, res) => {
   try {
     const bodyData = req.body;
-
+    console.log(bodyData, 'bodyData 32423');
+    
     if (!req.headers.subdbname) {
       return res
         .status(400)

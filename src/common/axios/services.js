@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import axios from 'axios';
 
 // ──────────────────────────────────────────────────────────────────
@@ -9,8 +11,8 @@ import axios from 'axios';
 //  gateway — requests come in here and are forwarded below.)
 // ──────────────────────────────────────────────────────────────────
 const services = {
-  core: 'http://localhost:8001', // core-service (your real ERP backend)
-  ai:   'http://localhost:8002', // ai-service   (your real aiChat)
+  core: process.env.CORE_URL, // core-service (your real ERP backend)
+  ai:   process.env.AI_URL, // ai-service   (your real aiChat)
 };
 
 // The axios call function: call another service and return its response.

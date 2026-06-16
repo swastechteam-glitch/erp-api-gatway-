@@ -3,6 +3,8 @@ import { buildHeaders } from '../common/apiRequestParams.js';
 
 // Gateway controller for "company": forwards to the "core" service via axiosRequest.
 export const company = async (req, res, next) => {
+  console.log(req.originalUrl, "originalUrl");
+  
   try {
     const r = await axiosRequest('core', {
       method: req.method,
