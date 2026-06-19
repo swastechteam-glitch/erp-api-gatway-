@@ -17,7 +17,7 @@ router.all('/new-join-approval/update',authenticate, hrm);
 router.all('/onduty-approvals/list',authenticate, hrm);
 router.all('/overview/attendance-manual_entry/approve',authenticate, hrm);
 router.all('/overview/compensation-work-entry/approve',authenticate, hrm);
-router.all('/overview/employee-approve-overview/list',authenticate, hrm);
+router.all('/overview/employee-approve-overview/list/:id?',authenticate, hrm);
 router.all('/overview/employee-wise-increment/approve',authenticate, hrm);
 router.all('/overview/employee/approve',authenticate, hrm);
 router.all('/overview/grad-wise-increment/approve',authenticate, hrm);

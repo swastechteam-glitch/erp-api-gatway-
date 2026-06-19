@@ -7,8 +7,8 @@ const router = express.Router();
 // Each path is forwarded to the core service by the controller.
 router.all('/gate-goods-out-approval/list',authenticate, gate);
 router.all('/overview/gate-out/approve',authenticate, gate);
-router.all('/overview/goods-out-approve-overview/list',authenticate, gate);
-router.all('/overview/vehicle-in-out-approve-overview/list',authenticate, gate);
+router.all('/overview/goods-out-approve-overview/list/:id?',authenticate, gate);
+router.all('/overview/vehicle-in-out-approve-overview/list/:id?',authenticate, gate);
 router.all('/overview/vehicle-in-out/approve',authenticate, gate);
 router.all('/vehicle-in-out-approval/list',authenticate, gate);
 
