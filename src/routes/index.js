@@ -61,6 +61,8 @@ import cottonQualityTestRouter from './cottonQualityTest.router.js';
 import cottonLotApprovalRouter from './cottonLotApproval.router.js';
 import cottonMixingIssueRequisitionRouter from './cottonMixingIssueRequisition.router.js';
 import cottonIssueRouter from './cottonIssue.router.js';
+import itemRequisitionRouter from './itemRequisition.router.js';
+import itemRequisitionAdjustmentRouter from './itemRequisitionAdjustment.router.js';
 import serviceOrderExpensesRouter from './serviceOrderExpenses.router.js';
 import commonServiceActivityRouter from './commonServiceActivity.router.js';
 import machineServiceScheduleRouter from './machineServiceSchedule.router.js';
@@ -149,6 +151,8 @@ const appRoutes = () => {
   router.use('/cotton-lot-approval', cottonLotApprovalRouter);
   router.use('/cotton-mixing-issue-requisition', cottonMixingIssueRequisitionRouter);
   router.use('/cotton-issue', cottonIssueRouter);
+  router.use('/item-requisition', itemRequisitionRouter);
+  router.use('/item-requisition-adjustment', itemRequisitionAdjustmentRouter);
   router.use('/service-order-expenses', serviceOrderExpensesRouter);
   router.use('/common-service-activity', commonServiceActivityRouter);
   router.use('/machine-service-schedule', machineServiceScheduleRouter);
