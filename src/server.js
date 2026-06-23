@@ -61,7 +61,7 @@ app.get("/health", (req, res) =>
 );
 app.use("/api/v1", appRoutes());
 app.use(handleError);
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, "0.0.0.0", () =>
+const PORT = process.env.PORT || 9100;
+app.listen(PORT,  () =>
   logger.info(`Gateway on http://0.0.0.0:${PORT}`),
 );
