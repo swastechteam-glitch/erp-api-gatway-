@@ -63,6 +63,8 @@ import cottonMixingIssueRequisitionRouter from './cottonMixingIssueRequisition.r
 import cottonIssueRouter from './cottonIssue.router.js';
 import itemRequisitionRouter from './itemRequisition.router.js';
 import itemRequisitionAdjustmentRouter from './itemRequisitionAdjustment.router.js';
+import itemIndentRouter from './itemIndent.router.js';
+import purchaseOrderRouter from './purchaseOrder.router.js';
 import serviceOrderExpensesRouter from './serviceOrderExpenses.router.js';
 import commonServiceActivityRouter from './commonServiceActivity.router.js';
 import machineServiceScheduleRouter from './machineServiceSchedule.router.js';
@@ -153,6 +155,8 @@ const appRoutes = () => {
   router.use('/cotton-issue', cottonIssueRouter);
   router.use('/item-requisition', itemRequisitionRouter);
   router.use('/item-requisition-adjustment', itemRequisitionAdjustmentRouter);
+  router.use('/item-indent', itemIndentRouter);
+  router.use('/purchase-order', purchaseOrderRouter);
   router.use('/service-order-expenses', serviceOrderExpensesRouter);
   router.use('/common-service-activity', commonServiceActivityRouter);
   router.use('/machine-service-schedule', machineServiceScheduleRouter);
