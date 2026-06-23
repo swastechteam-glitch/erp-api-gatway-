@@ -27,6 +27,7 @@ import costingMasterRouter from './costingMaster.router.js';
 import itemCategoryRouter from './itemCategory.router.js';
 import taxRouter from './tax.router.js';
 import itemUomRouter from './itemUom.router.js';
+import itemUsageTypeRouter from './itemUsageType.router.js';
 import itemGroupRouter from './itemGroup.router.js';
 import itemRouter from './item.router.js';
 import machineRouter from './machine.router.js';
@@ -119,6 +120,7 @@ const appRoutes = () => {
   router.use('/item-category', itemCategoryRouter);
   router.use('/tax', taxRouter);
   router.use('/item-uom', itemUomRouter);
+  router.use('/item-usage-type', itemUsageTypeRouter);
   router.use('/item-group', itemGroupRouter);
   router.use('/item', itemRouter);
   router.use('/machine', machineRouter);
