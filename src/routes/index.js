@@ -81,6 +81,7 @@ import costingRouter from './costing.router.js';
 import locationRouter from './location.router.js';
 import notificationRouter from './notification.router.js';
 import aiChatRouter from './aiChat.router.js';
+import gstRouter from './gst.router.js';
 import { authenticate } from '../middleware/authMiddleware.js';
 
 const appRoutes = () => {
@@ -174,6 +175,7 @@ const appRoutes = () => {
   router.use('/location', locationRouter);
   router.use('/notification', notificationRouter);
   router.use('/ai-chat', aiChatRouter);
+  router.use('/gst', gstRouter);
   return router;
 };
 export default appRoutes;
