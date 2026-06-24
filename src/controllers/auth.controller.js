@@ -17,6 +17,7 @@ export const auth = async (req, res, next) => {
     if (r.headers['content-type']) res.set('content-type', r.headers['content-type']);
     res.send(Buffer.from(r.data));
   } catch (err) {
+    console.log(err, "err1111");
     next(err);
   }
 };

@@ -17,8 +17,18 @@ const services = {
 
 // The axios call function: call another service and return its response.
 export const axiosRequest = async (service, { method = 'GET', endpoint, data, headers = {} }) => {
+  const baseURL = services[service];
+  if (!baseURL) {
+    // Without a baseURL, axios is handed a relative path (e.g. "/api/v1/...")
+    // and throws a cryptic "Invalid URL". Fail with a clear message instead.
+    throw new Error(
+      `Missing base URL for service "${service}". Set ${
+        service === 'core' ? 'CORE_URL' : service === 'ai' ? 'AI_URL' : service.toUpperCase() + '_URL'
+      } in your .env file.`,
+    );
+  }
   const res = await axios({
-    baseURL: services[service],
+    baseURL,
     method,
     url: endpoint,
     data: ['GET', 'HEAD'].includes((method || 'GET').toUpperCase()) ? undefined : data,
