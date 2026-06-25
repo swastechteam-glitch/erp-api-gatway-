@@ -28,6 +28,7 @@ router.get('/reports/export',authenticate, cotton);
 router.get('/reports/mixing-issue',authenticate, cotton);
 router.get('/reports/purchase-order',authenticate, cotton);
 router.get('/reports/purchase-order-pending',authenticate, cotton);
+router.get('/reports/quality-test',authenticate, cotton);
 router.get('/reports/stock',authenticate, cotton);
 router.get('/reports/weighment',authenticate, cotton);
 router.get('/supplier-cur-bl-approvals/list',authenticate, cotton);
