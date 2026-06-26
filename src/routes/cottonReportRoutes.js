@@ -13,7 +13,8 @@ const router = express.Router();
 router.get('/export', authenticate, getCottonReports);
 
 // PDF report endpoints (mirrors the UI menu structure under "Cotton").
-// Purchase Order has 4 group-by modes selectable via ?groupBy=date|supplier|variety|agent
+// Purchase Order has 5 group-by modes (?groupBy=date|supplier|variety|agent|station);
+// the pending variant has the same 5 modes on /purchase-order-pending.
 router.get('/purchase-order', authenticate, cottonPurchaseOrderReport);
 router.get('/purchase-order-pending', authenticate, cottonPurchaseOrderPendingReport);
 router.get('/arrival', authenticate, cottonArrivalReport);
