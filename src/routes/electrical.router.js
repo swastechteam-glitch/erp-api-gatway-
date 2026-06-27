@@ -12,6 +12,8 @@ router.all('/reports/break-down/machine-wise',authenticate, electrical);
 router.all('/reports/compressor-reading/date-wise',authenticate, electrical);
 router.all('/reports/compressor-reading/month-wise',authenticate, electrical);
 router.all('/reports/compressor-reading/performance',authenticate, electrical);
+router.all('/reports/compressor-reading/machine-wise',authenticate, electrical);
+router.all('/reports/compressor-reading/options',authenticate, electrical);
 router.all('/reports/cost',authenticate, electrical);
 router.all('/reports/daily-report',authenticate, electrical);
 router.all('/reports/day-wise-eb-reading/date-wise',authenticate, electrical);
