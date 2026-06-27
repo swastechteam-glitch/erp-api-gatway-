@@ -136,6 +136,8 @@ import itemRequisitionAdjustmentRouter from './itemRequisitionAdjustment.router.
 import itemIndentRouter from './itemIndent.router.js';
 import purchaseOrderRouter from './purchaseOrder.router.js';
 import inwardRouter from './inward.router.js';
+import purchaseReturnRouter from './purchaseReturn.router.js';
+import purchaseOrderPrintRouter from './purchaseOrderPrint.router.js';
 import serviceOrderExpensesRouter from './serviceOrderExpenses.router.js';
 import commonServiceActivityRouter from './commonServiceActivity.router.js';
 import machineServiceScheduleRouter from './machineServiceSchedule.router.js';
@@ -300,6 +302,8 @@ const appRoutes = () => {
   router.use('/item-indent', itemIndentRouter);
   router.use('/purchase-order', purchaseOrderRouter);
   router.use('/inward', inwardRouter);
+  router.use('/purchase-return', purchaseReturnRouter);
+  router.use('/purchase-order-print', purchaseOrderPrintRouter);
   router.use('/service-order-expenses', serviceOrderExpensesRouter);
   router.use('/common-service-activity', commonServiceActivityRouter);
   router.use('/machine-service-schedule', machineServiceScheduleRouter);
