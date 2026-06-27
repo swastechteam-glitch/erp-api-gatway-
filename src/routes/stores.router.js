@@ -27,7 +27,10 @@ router.all('/overview/store-purchase-order-md/approve',authenticate, stores);
 router.all('/overview/store-purchase-order/approve',authenticate, stores);
 router.all('/purchase-advice-approvals/list',authenticate, stores);
 router.all('/purchase-order-approvals/list',authenticate, stores);
+router.all('/purchase-order-approvals/filtered',authenticate, stores);
 router.all('/purchase-order-gm-approvals/list',authenticate, stores);
+router.all('/purchase-order-gm-approvals/filtered',authenticate, stores);
 router.all('/purchase-order-md-approvals/list',authenticate, stores);
+router.all('/purchase-order-md-approvals/filtered',authenticate, stores);
 
 export default router;
