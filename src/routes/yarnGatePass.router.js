@@ -5,6 +5,9 @@ import { authenticate } from "../middleware/authMiddleware.js";
 const router = express.Router();
 // Yarn Gate Pass paths (mounted at /api/v1/yarn-gate-pass).
 router.get('/lists', authenticate, yarnGatePass);
+router.get('/options', authenticate, yarnGatePass);
+router.get('/bills', authenticate, yarnGatePass);
+router.post('/create', authenticate, yarnGatePass);
 router.get('/report/:gatePassNo', authenticate, yarnGatePass);
 
 export default router;
