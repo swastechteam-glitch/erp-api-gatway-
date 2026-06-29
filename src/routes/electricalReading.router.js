@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/options', authenticate, electricalReading);
 
 router.get('/dept/preload', authenticate, electricalReading);
+router.get('/dept/meta', authenticate, electricalReading);
 router.get('/dept/list', authenticate, electricalReading);
 router.get('/dept/:code', authenticate, electricalReading);
 router.post('/dept/save', authenticate, electricalReading);
