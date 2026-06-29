@@ -178,6 +178,8 @@ import indentApproval1Router from './indentApproval1.router.js';
 import indentApproval2Router from './indentApproval2.router.js';
 import directIssueRouter from './directIssue.router.js';
 import purchaseRequisitionApprovalRouter from './purchaseRequisitionApproval.router.js';
+import goodsInPassRouter from './goodsInPass.router.js';
+import goodsOutPassRouter from './goodsOutPass.router.js';
 import serviceOrderExpensesRouter from './serviceOrderExpenses.router.js';
 import commonServiceActivityRouter from './commonServiceActivity.router.js';
 import machineServiceScheduleRouter from './machineServiceSchedule.router.js';
@@ -384,6 +386,8 @@ const appRoutes = () => {
   router.use('/indent-approval-2', indentApproval2Router);
   router.use('/direct-issue', directIssueRouter);
   router.use('/purchase-requisition-approval', purchaseRequisitionApprovalRouter);
+  router.use('/goods-in-pass', goodsInPassRouter);
+  router.use('/goods-out-pass', goodsOutPassRouter);
   router.use('/service-order-expenses', serviceOrderExpensesRouter);
   router.use('/common-service-activity', commonServiceActivityRouter);
   router.use('/machine-service-schedule', machineServiceScheduleRouter);
