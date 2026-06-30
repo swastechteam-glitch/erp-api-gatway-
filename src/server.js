@@ -22,6 +22,7 @@ const allowedOrigins = [
   "http://localhost:3001",
   "http://192.168.1.12:3000",
   "https://dev.swasinfotechnologies.cloud",
+  "https://tpn2.swasinfotechnologies.cloud"
   // "http://192.168.1.5:3000",F
   // "http://localhost:8001",
   // "http://localhost:8002",
