@@ -204,6 +204,8 @@ import shiftRouter from './shift.router.js';
 import downloadMachineRouter from './downloadMachine.router.js';
 import generateAttendanceRouter from './generateAttendance.router.js';
 import generateAttendanceGOTSRouter from './generateAttendanceGOTS.router.js';
+import musterRouter from './muster.router.js';
+import salaryGenerateRouter from './salaryGenerate.router.js';
 import attenManualEntryRouter from './attenManualEntry.router.js';
 import attenManualEntryEmpWiseRouter from './attenManualEntryEmpWise.router.js';
 import otManualEntryRouter from './otManualEntry.router.js';
@@ -292,6 +294,8 @@ const appRoutes = () => {
   router.use('/download-machine', downloadMachineRouter);
   router.use('/generate-attendance', generateAttendanceRouter);
   router.use('/generate-attendance-gots', generateAttendanceGOTSRouter);
+  router.use('/muster', musterRouter);
+  router.use('/salary-generate', salaryGenerateRouter);
   router.use('/atten-manual-entry', attenManualEntryRouter);
   router.use('/atten-manual-entry-empwise', attenManualEntryEmpWiseRouter);
   router.use('/ot-manual-entry', otManualEntryRouter);
