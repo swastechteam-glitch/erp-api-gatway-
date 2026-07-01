@@ -219,6 +219,7 @@ import purchaseOrderPrintRouter from './purchaseOrderPrint.router.js';
 import indentApproval1Router from './indentApproval1.router.js';
 import indentApproval2Router from './indentApproval2.router.js';
 import directIssueRouter from './directIssue.router.js';
+import itemIssueRouter from './itemIssue.router.js';
 import purchaseRequisitionApprovalRouter from './purchaseRequisitionApproval.router.js';
 import goodsInPassRouter from './goodsInPass.router.js';
 import goodsOutPassRouter from './goodsOutPass.router.js';
@@ -470,6 +471,7 @@ const appRoutes = () => {
   router.use('/indent-approval-1', indentApproval1Router);
   router.use('/indent-approval-2', indentApproval2Router);
   router.use('/direct-issue', directIssueRouter);
+  router.use('/item-issue', itemIssueRouter);
   router.use('/purchase-requisition-approval', purchaseRequisitionApprovalRouter);
   router.use('/goods-in-pass', goodsInPassRouter);
   router.use('/goods-out-pass', goodsOutPassRouter);
