@@ -15,6 +15,7 @@ export const generateToken = (
   nodeRegistration,
   branchCode,
   companyCode,
+  isSuperAdmin = false,
 ) => {
   const JWT_SECRET = "Textiels-erp-api";
   return jwt.sign(
@@ -27,11 +28,34 @@ export const generateToken = (
       // FYEnd: FYEnd,
       nodeCode: nodeRegistration?.NodeCode,
       branchCode: branchCode,
+      // Drives TPN2/LOCALHOST DB routing in authMiddleware: super-admins ->
+      // external server, everyone else -> internal LAN server.
+      isSuperAdmin: !!isSuperAdmin,
       // userDetaild: user,
     },
     JWT_SECRET,
     { expiresIn: "4h" },
   );
+};
+
+// Look up the user's RBAC role (RoleName + IsSuperAdmin) so the web app can
+// decide which app shell to show on login. Never breaks login: returns null if
+// the RBAC tables aren't deployed yet (SQL 208) or anything else goes wrong.
+const getUserRoleInfo = async (pool, userCode) => {
+  try {
+    const r = await pool
+      .request()
+      .input("UserCode", sql.Int, userCode)
+      .query(`
+        SELECT TOP 1 r.RoleCode, r.RoleName, r.IsSuperAdmin
+        FROM dbo.tbl_web_UserRole ur
+        JOIN dbo.tbl_web_Role r ON r.RoleCode = ur.RoleCode AND r.Status = 1
+        WHERE ur.UserCode = @UserCode
+      `);
+    return r.recordset[0] || null;
+  } catch (err) {
+    return null; // RBAC not configured / lookup failed -> no role (full menu fallback)
+  }
 };
 
 export const authLogin = async (req, res) => {
@@ -44,6 +68,10 @@ export const authLogin = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Missing subDBName" });
 
+    // Login authenticates against the configured server for this client.
+    // For TPN2 (and LOCALHOST in dev) that is the external server (61.2.74.74)
+    // so every user can log in. Role-based DB routing happens AFTER login in
+    // authMiddleware, once we know whether the user is a super-admin.
     const pool = await getPool(req.headers.subdbname);
     const nodeRegistration = await checkNodeRegistration(req.headers.subdbname);
 
@@ -80,13 +108,27 @@ export const authLogin = async (req, res) => {
           ).toString("base64")}`;
         }
 
+        // Look up the RBAC role first: it decides the app shell on the web app
+        // AND the TPN2/LOCALHOST DB routing (super-admin -> external, others ->
+        // internal).
+        const roleInfo = await getUserRoleInfo(pool, user.UserCode);
+        const isSuperAdmin = !!roleInfo?.IsSuperAdmin;
+
         const token = generateToken(
           user,
           fyCode,
           nodeRegistration,
           branchCode,
           companyCode,
+          isSuperAdmin,
         );
+
+        // Attach the user's RBAC role so the web app can pick the right shell
+        // (management vs employee) and so normalizeAccess() gets a real role.
+        user.role = roleInfo?.RoleName || null;
+        user.roleCode = roleInfo?.RoleCode || null;
+        user.isSuperAdmin = isSuperAdmin;
+
         return res.status(200).json({ success: true, token, user });
       }
     }
@@ -172,13 +214,19 @@ export const tokenCreate = async (req, res) => {
       //     ).toString("base64")}`;
       //   }
 
+      const roleInfo = await getUserRoleInfo(pool, user.UserCode);
+      const isSuperAdmin = !!roleInfo?.IsSuperAdmin;
       const token = generateToken(
         user,
         FyCode,
         nodeRegistration,
         branchCode,
         companyCode,
+        isSuperAdmin,
       );
+      user.role = roleInfo?.RoleName || null;
+      user.roleCode = roleInfo?.RoleCode || null;
+      user.isSuperAdmin = isSuperAdmin;
       return res.status(200).json({ success: true, token, user });
       // }
     }
