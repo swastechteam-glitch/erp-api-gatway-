@@ -8,6 +8,28 @@ import os from "os";
 import { getPool } from "../config/dynamicDB.js";
 
 // ⚠️ move to process.env in production
+// JWT_SECRET must match the core API's authMiddleware (it verifies the same
+// access token). The refresh secret is gateway-only — only /auth/refresh here
+// ever verifies it. Short access token + long refresh token = the user stays
+// logged in while active and only expires after real inactivity.
+const JWT_SECRET = "Textiels-erp-api";
+const JWT_REFRESH_SECRET = "Textiels-erp-api-refresh";
+const ACCESS_TTL = "30m"; // short-lived: silently refreshed by the web app
+const REFRESH_TTL = "7d"; // sliding window — rotated on every refresh
+
+// The identity claims baked into the access token (and mirrored in the refresh
+// token so a refresh can re-mint an access token without another DB lookup).
+const buildClaims = (user, FyCode, nodeRegistration, branchCode, companyCode, isSuperAdmin) => ({
+  userId: user.UserCode,
+  UName: user.UName,
+  companyCode: companyCode,
+  FYCode: FyCode,
+  nodeCode: nodeRegistration?.NodeCode,
+  branchCode: branchCode,
+  // Drives TPN2/LOCALHOST DB routing in authMiddleware: super-admins ->
+  // external server, everyone else -> internal LAN server.
+  isSuperAdmin: !!isSuperAdmin,
+});
 
 export const generateToken = (
   user,
@@ -16,26 +38,67 @@ export const generateToken = (
   branchCode,
   companyCode,
   isSuperAdmin = false,
-) => {
-  const JWT_SECRET = "Textiels-erp-api";
-  return jwt.sign(
-    {
-      userId: user.UserCode,
-      UName: user.UName,
-      companyCode: companyCode,
-      FYCode: FyCode,
-      // FYStart: FYStart,
-      // FYEnd: FYEnd,
-      nodeCode: nodeRegistration?.NodeCode,
-      branchCode: branchCode,
-      // Drives TPN2/LOCALHOST DB routing in authMiddleware: super-admins ->
-      // external server, everyone else -> internal LAN server.
-      isSuperAdmin: !!isSuperAdmin,
-      // userDetaild: user,
-    },
+) =>
+  jwt.sign(
+    buildClaims(user, FyCode, nodeRegistration, branchCode, companyCode, isSuperAdmin),
     JWT_SECRET,
-    { expiresIn: "4h" },
+    { expiresIn: ACCESS_TTL },
   );
+
+// Refresh token: same identity claims + a `typ` marker so /auth/refresh can
+// reject an access token being replayed as a refresh token.
+export const generateRefreshToken = (
+  user,
+  FyCode,
+  nodeRegistration,
+  branchCode,
+  companyCode,
+  isSuperAdmin = false,
+) =>
+  jwt.sign(
+    { ...buildClaims(user, FyCode, nodeRegistration, branchCode, companyCode, isSuperAdmin), typ: "refresh" },
+    JWT_REFRESH_SECRET,
+    { expiresIn: REFRESH_TTL },
+  );
+
+// POST /auth/refresh — exchange a valid (unexpired) refresh token for a fresh
+// access token. Rotates the refresh token too, so an active user's 7-day window
+// keeps sliding forward. No DB call, no subDBName needed: it only re-signs the
+// claims already proven by the refresh token. If the refresh token is expired
+// or invalid, the web app falls back to a real login.
+export const refreshAccessToken = (req, res) => {
+  try {
+    const { refreshToken } = req.body || {};
+    if (!refreshToken)
+      return res.status(401).json({ success: false, message: "Missing refresh token" });
+
+    const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+    if (decoded.typ !== "refresh")
+      return res.status(401).json({ success: false, message: "Invalid refresh token" });
+
+    const claims = {
+      userId: decoded.userId,
+      UName: decoded.UName,
+      companyCode: decoded.companyCode,
+      FYCode: decoded.FYCode,
+      nodeCode: decoded.nodeCode,
+      branchCode: decoded.branchCode,
+      isSuperAdmin: !!decoded.isSuperAdmin,
+    };
+
+    const token = jwt.sign(claims, JWT_SECRET, { expiresIn: ACCESS_TTL });
+    const newRefreshToken = jwt.sign(
+      { ...claims, typ: "refresh" },
+      JWT_REFRESH_SECRET,
+      { expiresIn: REFRESH_TTL },
+    );
+
+    return res.status(200).json({ success: true, token, refreshToken: newRefreshToken });
+  } catch (err) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Session expired. Please log in again." });
+  }
 };
 
 // Look up the user's RBAC role (RoleName + IsSuperAdmin) so the web app can
@@ -122,6 +185,14 @@ export const authLogin = async (req, res) => {
           companyCode,
           isSuperAdmin,
         );
+        const refreshToken = generateRefreshToken(
+          user,
+          fyCode,
+          nodeRegistration,
+          branchCode,
+          companyCode,
+          isSuperAdmin,
+        );
 
         // Attach the user's RBAC role so the web app can pick the right shell
         // (management vs employee) and so normalizeAccess() gets a real role.
@@ -129,7 +200,7 @@ export const authLogin = async (req, res) => {
         user.roleCode = roleInfo?.RoleCode || null;
         user.isSuperAdmin = isSuperAdmin;
 
-        return res.status(200).json({ success: true, token, user });
+        return res.status(200).json({ success: true, token, refreshToken, user });
       }
     }
 
@@ -224,10 +295,18 @@ export const tokenCreate = async (req, res) => {
         companyCode,
         isSuperAdmin,
       );
+      const refreshToken = generateRefreshToken(
+        user,
+        FyCode,
+        nodeRegistration,
+        branchCode,
+        companyCode,
+        isSuperAdmin,
+      );
       user.role = roleInfo?.RoleName || null;
       user.roleCode = roleInfo?.RoleCode || null;
       user.isSuperAdmin = isSuperAdmin;
-      return res.status(200).json({ success: true, token, user });
+      return res.status(200).json({ success: true, token, refreshToken, user });
       // }
     }
 
