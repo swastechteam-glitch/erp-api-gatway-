@@ -142,6 +142,12 @@ export const clientDBConfig = {
     // role-based split can be tested on localhost: login + super-admins use the
     // external server (61.2.74.74); regular users are routed to the internal
     // LAN server (TPN2_LAN) by authMiddleware. See LAN_ROUTED_CLIENTS below.
+    // user: "sa",
+    // password: "@dmin1305",
+    // server: "103.208.228.199",
+    // port: 16000,
+    // database: "SwasERP_SKT_Test",
+
     user: "sa",
     password: "@dmin1305",
     server: "61.2.74.74",

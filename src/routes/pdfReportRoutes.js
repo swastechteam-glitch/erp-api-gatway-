@@ -63,8 +63,6 @@ import {
   handleGrnApprovalPendingReport,
   handleServiceBillPassingDateWiseReport,
   handleServiceBillPassingSupplierWiseReport,
-  handlePurchaseReturnDateWiseReport,
-  handlePurchaseReturnSupplierWiseReport,
 } from "../controllers/pdfReport.controller.js";
 
 
@@ -130,8 +128,6 @@ router.get('/grn-bill-passing/supplierwise',authenticate, handleGrnBillPassingSu
 router.get('/grn-approval/pending',authenticate, handleGrnApprovalPendingReport);
 router.get('/service-bill-passing/datewise',authenticate, handleServiceBillPassingDateWiseReport);
 router.get('/service-bill-passing/supplierwise',authenticate, handleServiceBillPassingSupplierWiseReport);
-router.get('/purchase-return/datewise',authenticate, handlePurchaseReturnDateWiseReport);
-router.get('/purchase-return/supplierwise',authenticate, handlePurchaseReturnSupplierWiseReport);
 // router.get('/employee-allotment-details/list',authenticate, getEmployeeAllotmentDetails);
 // router.get('/unique-employee-allotments/list',authenticate, getUniqueEmployeeAllotments);
 

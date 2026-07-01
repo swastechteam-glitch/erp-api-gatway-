@@ -17,7 +17,6 @@ import serviceOrderCompleteReport from './report/store/serviceOrderCompleteRepor
 import costingReport from './report/store/costingReport.js'
 import grnBillPassing from './report/store/grnBillPassing.js'
 import serviceBillPassing from './report/store/serviceBillPassing.js'
-import purchaseReturn from './report/store/purchaseReturn.js'
 import yarnSalesOrderReport from './report/yarn/salesOrderReport.js'
 import yarnInvoiceReport from './report/yarn/invoiceReport.js'
 import yarnPurchaseOrderReport from './report/yarn/purchaseOrderReport.js'
@@ -542,15 +541,4 @@ export const handleServiceBillPassingSupplierWiseReport = (req, res) => runRepor
   fileName: 'ServiceBillPassing_SupplierWise'
 });
 
-export const handlePurchaseReturnDateWiseReport = (req, res) => runReport(req, res, {
-  spName: 'sp_PurchaseReturnDetails_GetAll',
-  reportModule: purchaseReturn.dateWise,
-  fileName: 'PurchaseReturn_DateWise'
-});
-
-export const handlePurchaseReturnSupplierWiseReport = (req, res) => runReport(req, res, {
-  spName: 'sp_PurchaseReturnDetails_GetAll',
-  reportModule: purchaseReturn.supplierWise,
-  fileName: 'PurchaseReturn_SupplierWise'
-});
 
