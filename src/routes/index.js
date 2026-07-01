@@ -3,6 +3,7 @@ import badgeRouter from './badge.router.js';
 import authRouter from './auth.router.js';
 import companyRouter from './company.router.js';
 import reportRouter from './report.router.js';
+import einvoiceRouter from './einvoice.router.js';
 import cottonRouter from './cotton.router.js';
 import documentRouter from './document.router.js';
 import productionRouter from './production.router.js';
@@ -257,6 +258,7 @@ const appRoutes = () => {
 
   router.use('/badge', badgeRouter);
   router.use('/report', reportRouter);
+  router.use('/einvoice', einvoiceRouter);
   router.use('/cotton', cottonRouter);
   router.use('/document', documentRouter);
   router.use('/production', productionRouter);
