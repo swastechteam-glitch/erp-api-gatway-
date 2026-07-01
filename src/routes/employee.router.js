@@ -13,6 +13,7 @@ router.get('/districts/:stateCode', authenticate, employee);          // GET    
 router.get('/grades/:empCategoryCode', authenticate, employee);       // GET    grades for a category
 router.get('/next-id/:empGroupCode', authenticate, employee);         // GET    next employee id
 router.get('/form12/:empGroupCode', authenticate, employee);          // GET    next form12 no
+router.get('/exists/:employeeId', authenticate, employee);            // GET    employee-id duplicate check
 router.get('/lists', authenticate, employee);                         // GET    list
 router.get('/list/:employeeCode', authenticate, employee);            // GET    one
 router.post('/create', authenticate, employee);                       // POST   create
