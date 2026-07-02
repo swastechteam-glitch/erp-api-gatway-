@@ -264,7 +264,7 @@ export const clientDBConfig = {
     password: "@dmin1305",
     // server: "61.2.74.74",
     server: "TPSMSERVER\\SQL2008",
-    // port: 16000,
+    port: 1433,
     database: "SwasERP_ThenpandianU2",
   },
 
